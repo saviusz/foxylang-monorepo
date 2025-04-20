@@ -1,0 +1,12 @@
+S ::= Definition Newline S | EOF
+
+Definition ::= 
+           ClassDeclaration
+        |  FunctionDefinition
+
+ClassDeclaration ::=
+  "class" Identifier ClassBody
+
+ClassBody ::= 
+
+Newline ::= "\n\r"

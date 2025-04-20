@@ -1,0 +1,34 @@
+func main() {
+    final file = readFile("path");
+
+    final parser = Parser(file);
+}
+
+struct Token {
+    
+    static enum Type {
+        EOF
+    }
+
+    Type type;
+    String text;
+
+    static const EOF = this{
+        type: Type.EOF,
+        text: ""
+    };
+}
+
+class Parser {
+    
+    int carret = 0;
+    List<Token> tokens;
+
+    Parser(this.tokens);
+
+    public func<Token> peek() {
+        if (carret > tokens.length()) return Token.EOF
+        return tokens[carret];
+    }
+
+}

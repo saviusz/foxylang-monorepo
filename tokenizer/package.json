@@ -1,0 +1,17 @@
+{
+    "name": "@saviusz/foxylang-tokenizer",
+    "exports": {
+        "./*": {
+            "types": "./src/*.ts",
+            "default": "./dist/*.js"
+        }
+    },
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@saviusz/foxylang-config": "*",
+        "typescript": "latest"
+    }
+}

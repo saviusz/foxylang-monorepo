@@ -1,0 +1,59 @@
+.container {
+    pointer-events: none;
+    position: absolute;
+}
+
+.container span {
+    position: relative;
+    color: transparent;
+}
+
+.container span::before {
+    content: "";
+
+    display: block;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    height: 100%;
+
+    padding: 2px 2px;
+
+    border: solid 2px hsl(var(--hue), 75%, 43%);
+    border-radius: 4px;
+}
+
+.legend {
+    position: fixed !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+
+    width: auto !important;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.legend span {
+    color: hsl(var(--hue), 98%, 61%);
+}
+
+/* .Value {
+    --col: hsl(258, 98%, 61%);
+}
+
+.Operator {
+    --col: hsl(292, 98%, 61%);
+}
+
+.Literal {
+    --col: hsl(61, 98%, 61%);
+
+} */

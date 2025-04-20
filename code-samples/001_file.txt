@@ -1,0 +1,5 @@
+func<OutputT, ErrorT> nazwa(int a, string b) {
+    final string elo = 87;
+    const elmo = 89;
+    string mamamio;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "foxylang-monorepo",
+  "private": true,
+  "packageManager": "npm@9.1.2",
+  "workspaces": [
+    "./foxy-web",
+    "./interpreter",
+    "./tokenizer",
+    "./config"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  }
+}

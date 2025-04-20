@@ -1,0 +1,49 @@
+.container {
+    pointer-events: none;
+    position: absolute;
+}
+
+.container span {
+    color: hsl(var(--hue), 98%, 61%);
+}
+
+.legend {
+    position: fixed !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: auto !important;
+    
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.legend span {
+    color: hsl(var(--hue), 98%, 61%);
+}
+
+/* .Number {
+    color: hsl(31, 98%, 61%);
+}
+
+.Letter {
+    color: hsl(85, 98%, 61%);
+}
+
+.Plus {
+    color: hsl(0, 98%, 61%);
+}
+
+.Minus {
+    color: hsl(0, 98%, 61%);
+}
+
+.Fslash {
+    color: hsl(0, 98%, 61%);
+}
+
+.Star {
+    color: hsl(0, 98%, 61%);
+} */
