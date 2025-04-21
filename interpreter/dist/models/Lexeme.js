@@ -1,9 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LexemeType = void 0;
-exports.getLexemeType = getLexemeType;
-exports.getLexeme = getLexeme;
-var LexemeType;
+export var LexemeType;
 (function (LexemeType) {
     LexemeType["Unknown"] = "Unknown";
     LexemeType["Whitespace"] = "Whitespace";
@@ -39,8 +34,8 @@ var LexemeType;
     LexemeType["Quote"] = "Quote";
     LexemeType["Aqute"] = "Aqute";
     LexemeType["Dash"] = "Dash";
-})(LexemeType || (exports.LexemeType = LexemeType = {}));
-function getLexemeType(char) {
+})(LexemeType || (LexemeType = {}));
+export function getLexemeType(char) {
     if (char.length != 1)
         throw new Error(`Wrong length of char ${char.length}`);
     if ('1234567890'.includes(char))
@@ -83,9 +78,10 @@ function getLexemeType(char) {
     }
     return LexemeType.Unknown;
 }
-function getLexeme(char) {
+export function getLexeme(char) {
     return {
         type: getLexemeType(char),
         value: char
     };
 }
+//# sourceMappingURL=Lexeme.js.map

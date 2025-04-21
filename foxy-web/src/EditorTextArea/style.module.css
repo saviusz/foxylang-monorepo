@@ -1,0 +1,7 @@
+.container {
+    word-wrap: none;
+    white-space: pre-wrap;
+    text-wrap: nowrap;
+
+    outline: none;
+}

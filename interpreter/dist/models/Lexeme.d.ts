@@ -37,6 +37,8 @@ export declare enum LexemeType {
 export interface Lexeme {
     type: LexemeType;
     value: string;
+    line: number;
+    column: number;
 }
 export declare function getLexemeType(char: string): LexemeType;
 export declare function getLexeme(char: string): Lexeme;

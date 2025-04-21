@@ -1,11 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TokenType = void 0;
-exports.isTokenMeaningfull = isTokenMeaningfull;
-exports.getTokenType = getTokenType;
-exports.getTokens = getTokens;
-const Lexeme_1 = require("./Lexeme");
-var TokenType;
+import { LexemeType } from "./Lexeme";
+export var TokenType;
 (function (TokenType) {
     TokenType["Unexpected"] = "Unknown";
     TokenType["Whitespace"] = "Whitespace";
@@ -20,37 +14,37 @@ var TokenType;
     TokenType["BlockComment"] = "BlockComment";
     TokenType["ParamsOpen"] = "ParamsOpen";
     TokenType["GenericOpen"] = "GenericOpen";
-})(TokenType || (exports.TokenType = TokenType = {}));
-function isTokenMeaningfull(tokenType) {
+})(TokenType || (TokenType = {}));
+export function isTokenMeaningfull(tokenType) {
     return tokenType != TokenType.Whitespace && tokenType != TokenType.EOL;
 }
-function getTokenType(lastMeaningfullToken, isSpacePreceeded, lexeme) {
+export function getTokenType(lastMeaningfullToken, isSpacePreceeded, lexeme) {
     switch (lexeme.type) {
-        case Lexeme_1.LexemeType.Whitespace: return TokenType.Whitespace;
-        case Lexeme_1.LexemeType.NewLine: return TokenType.EOL;
-        case Lexeme_1.LexemeType.Star:
-        case Lexeme_1.LexemeType.FSlash:
+        case LexemeType.Whitespace: return TokenType.Whitespace;
+        case LexemeType.NewLine: return TokenType.EOL;
+        case LexemeType.Star:
+        case LexemeType.FSlash:
             return TokenType.Operator;
     }
     switch (lastMeaningfullToken) {
         case TokenType.BOF: switch (lexeme.type) {
-            case Lexeme_1.LexemeType.Letter: return TokenType.Symbol;
+            case LexemeType.Letter: return TokenType.Symbol;
         }
         case TokenType.Symbol: switch (lexeme.type) {
-            case Lexeme_1.LexemeType.Letter:
-            case Lexeme_1.LexemeType.Digit: return TokenType.Symbol;
-            case Lexeme_1.LexemeType.OParen: return TokenType.ParamsOpen;
-            case Lexeme_1.LexemeType.Comma: return TokenType.Operator;
-            case Lexeme_1.LexemeType.LessThan: return isSpacePreceeded ? TokenType.Operator : TokenType.GenericOpen;
+            case LexemeType.Letter:
+            case LexemeType.Digit: return TokenType.Symbol;
+            case LexemeType.OParen: return TokenType.ParamsOpen;
+            case LexemeType.Comma: return TokenType.Operator;
+            case LexemeType.LessThan: return isSpacePreceeded ? TokenType.Operator : TokenType.GenericOpen;
         }
         case TokenType.Operator:
         case TokenType.ParamsOpen: switch (lexeme.type) {
-            case Lexeme_1.LexemeType.Letter: return TokenType.Symbol;
+            case LexemeType.Letter: return TokenType.Symbol;
         }
     }
     return TokenType.Unexpected;
 }
-function getTokens(lexemes) {
+export function getTokens(lexemes) {
     const tokens = [];
     let lastMeaningfullToken = TokenType.BOF;
     let isLastWhitespace = true;
@@ -80,3 +74,4 @@ function getTokens(lexemes) {
     ;
     return tokens;
 }
+//# sourceMappingURL=Token.js.map

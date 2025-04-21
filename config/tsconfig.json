@@ -11,6 +11,7 @@
       "noUncheckedIndexedAccess": true,
       "module": "NodeNext",
       "declaration": true,
-      "declarationMap": true
+      "declarationMap": true,
+      "sourceMap": true,
     }
   }

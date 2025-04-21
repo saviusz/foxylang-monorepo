@@ -31,5 +31,5 @@
         "node_modules/": true,
         ".turbo/": true
     },
-    "hidefiles.selectedProfile": "Default"
+    "hidefiles.selectedProfile": "Strict"
 }

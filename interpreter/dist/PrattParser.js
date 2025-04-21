@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Parse = Parse;
-const Token_1 = require("./models/Token");
-function Parse(tokens) {
+import { TokenType } from "./models/Token";
+export function Parse(tokens) {
     console.table(tokens);
     const parser = new PrattParser(tokens);
     console.log(expr(parser).toString());
@@ -17,19 +14,19 @@ class PrattParser {
      * Returns next token
      */
     next() {
-        return this.tokens.pop() ?? { pos: 0, text: "", type: Token_1.TokenType.EOF };
+        return this.tokens.pop() ?? { pos: 0, text: "", type: TokenType.EOF };
     }
     /**
      * Checks next token
      */
     peek() {
-        return this.tokens.at(-1) ?? { pos: 0, text: "", type: Token_1.TokenType.EOF };
+        return this.tokens.at(-1) ?? { pos: 0, text: "", type: TokenType.EOF };
     }
 }
 function expr(p) {
     const lhs = value(p);
     let operation = p.next();
-    if (operation.type != Token_1.TokenType.EOF) {
+    if (operation.type != TokenType.EOF) {
         const rhs = expr(p);
         return new BinaryOperation(operation.text, lhs, rhs);
     }
@@ -38,9 +35,9 @@ function expr(p) {
 function value(p) {
     const nextToken = p.next();
     switch (nextToken.type) {
-        case Token_1.TokenType.Literal:
+        case TokenType.Literal:
             return new Literal(+nextToken.text);
-        case Token_1.TokenType.Symbol:
+        case TokenType.Symbol:
             return new Symbol(nextToken.text);
         default: throw new Error(`Token with type ${nextToken.type} is not a value`);
     }
@@ -84,3 +81,4 @@ class BinaryOperation {
         return `(${this._operator} ${this.lhs} ${this.rhs})`;
     }
 }
+//# sourceMappingURL=PrattParser.js.map

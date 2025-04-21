@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Multiplication = exports.Subtraction = exports.Addition = exports.NumberValue = exports.TwoSidedOperation = void 0;
-class TwoSidedOperation {
+export class TwoSidedOperation {
     left;
     right;
     constructor(left, right) {
@@ -9,8 +6,7 @@ class TwoSidedOperation {
         this.right = right;
     }
 }
-exports.TwoSidedOperation = TwoSidedOperation;
-class NumberValue {
+export class NumberValue {
     value;
     atype = "num";
     constructor(value) {
@@ -23,8 +19,7 @@ class NumberValue {
         return this.value;
     }
 }
-exports.NumberValue = NumberValue;
-class Addition extends TwoSidedOperation {
+export class Addition extends TwoSidedOperation {
     atype = "add";
     getValue() {
         return this.left.getValue() + this.right.getValue();
@@ -33,8 +28,7 @@ class Addition extends TwoSidedOperation {
         return `(${this.left.getString()} + ${this.right.getString()})`;
     }
 }
-exports.Addition = Addition;
-class Subtraction extends TwoSidedOperation {
+export class Subtraction extends TwoSidedOperation {
     atype = "sub";
     getValue() {
         return this.left.getValue() - this.right.getValue();
@@ -43,8 +37,7 @@ class Subtraction extends TwoSidedOperation {
         return `(${this.left.getString()} - ${this.right.getString()})`;
     }
 }
-exports.Subtraction = Subtraction;
-class Multiplication extends TwoSidedOperation {
+export class Multiplication extends TwoSidedOperation {
     atype = "mul";
     getValue() {
         return this.left.getValue() * this.right.getValue();
@@ -53,4 +46,4 @@ class Multiplication extends TwoSidedOperation {
         return `(${this.left.getString()} * ${this.right.getString()})`;
     }
 }
-exports.Multiplication = Multiplication;
+//# sourceMappingURL=Value.js.map

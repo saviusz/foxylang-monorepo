@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-direction: column;
+
+    overflow: auto;
+    height: 100%;
+}
+
+.entry {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    font-size: 1.1em;
+
+    border-bottom: 1px solid rgb(53, 53, 53);
+}
+
+.entry.selected {
+    background-color: rgb(53, 53, 53);
+}
+
+.entry:nth-child(1) {
+    border-top: 1px solid rgb(53, 53, 53);
+}
+
+.entry > * {
+    padding: 4px 8px;
+}
+
+.entry > .value {
+    font-family: monospace;
+    flex: 4;
+}
+
+.entry > .type {
+    flex: 2;
+    color: var(--color, #767676);
+
+    &.number { --color: rgb(110, 242, 141); }
+    &.text { --color: rgb(241, 171, 97); }
+    &.symbol { --color: rgb(218, 110, 242); }
+    &.number { --color: rgb(110, 242, 141); }
+    &.unknown { --color: rgb(242, 110, 110); }
+}
+
+.entry > .position {
+    flex: 1;
+    text-align: right;
+    color: #767676;
+}

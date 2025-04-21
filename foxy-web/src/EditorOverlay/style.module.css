@@ -1,0 +1,21 @@
+.container {
+    pointer-events: none;
+}
+
+.span {
+    pointer-events: none;
+    user-select: none;
+    color: var(--color);
+}
+
+.highlighted {
+    outline: 1px solid var(--color, white);
+    border-radius: 4px;
+}
+
+.number { --color: rgb(110, 242, 141); }
+.text { --color: rgb(241, 171, 97); }
+.symbol { --color: rgb(218, 110, 242); }
+.number { --color: rgb(110, 242, 141); }
+.unknown { --color: rgb(242, 110, 110); }
+

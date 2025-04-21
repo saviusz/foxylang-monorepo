@@ -1,157 +1,155 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const Lexeme_1 = require("./models/Lexeme");
-const Token_1 = require("./models/Token");
-class Tokenizer {
+import { LexemeType } from "./models/Lexeme";
+import { TokenType } from "./models/Token";
+export default class Tokenizer {
     getGraph(char) {
         if (char.length > 1)
             throw new Error("char should have length 1");
         if ("\n\r".includes(char[0]))
             return {
-                type: Lexeme_1.LexemeType.NewLine,
+                type: LexemeType.NewLine,
                 value: char
             };
         if ("\t ".includes(char[0]))
             return {
-                type: Lexeme_1.LexemeType.Whitespace,
+                type: LexemeType.Whitespace,
                 value: char
             };
         switch (char[0]) {
             case "+":
                 return {
-                    type: Lexeme_1.LexemeType.Plus,
+                    type: LexemeType.Plus,
                     value: char
                 };
             case "-":
                 return {
-                    type: Lexeme_1.LexemeType.Minus,
+                    type: LexemeType.Minus,
                     value: char
                 };
             case "*":
                 return {
-                    type: Lexeme_1.LexemeType.Star,
+                    type: LexemeType.Star,
                     value: char
                 };
             case "/":
                 return {
-                    type: Lexeme_1.LexemeType.FSlash,
+                    type: LexemeType.FSlash,
                     value: char
                 };
             case "(":
                 return {
-                    type: Lexeme_1.LexemeType.OParen,
+                    type: LexemeType.OParen,
                     value: char
                 };
             case ")":
                 return {
-                    type: Lexeme_1.LexemeType.CParen,
+                    type: LexemeType.CParen,
                     value: char
                 };
             case ",":
                 return {
-                    type: Lexeme_1.LexemeType.Comma,
+                    type: LexemeType.Comma,
                     value: char
                 };
             case "{":
                 return {
-                    type: Lexeme_1.LexemeType.OCurly,
+                    type: LexemeType.OCurly,
                     value: char
                 };
             case "}":
                 return {
-                    type: Lexeme_1.LexemeType.CCurly,
+                    type: LexemeType.CCurly,
                     value: char
                 };
             case "[":
                 return {
-                    type: Lexeme_1.LexemeType.OSquere,
+                    type: LexemeType.OSquere,
                     value: char
                 };
             case "]":
                 return {
-                    type: Lexeme_1.LexemeType.CSquere,
+                    type: LexemeType.CSquere,
                     value: char
                 };
             case ";":
                 return {
-                    type: Lexeme_1.LexemeType.Semicolon,
+                    type: LexemeType.Semicolon,
                     value: char
                 };
             case "&":
                 return {
-                    type: Lexeme_1.LexemeType.Amprestand,
+                    type: LexemeType.Amprestand,
                     value: char
                 };
             case "<":
                 return {
-                    type: Lexeme_1.LexemeType.LessThan,
+                    type: LexemeType.LessThan,
                     value: char
                 };
             case ">":
                 return {
-                    type: Lexeme_1.LexemeType.MoreThan,
+                    type: LexemeType.MoreThan,
                     value: char
                 };
             case "=":
                 return {
-                    type: Lexeme_1.LexemeType.Equal,
+                    type: LexemeType.Equal,
                     value: char
                 };
         }
         if ("1234567890".includes(char[0]))
             return {
-                type: Lexeme_1.LexemeType.Digit,
+                type: LexemeType.Digit,
                 value: char
             };
         if ("abcdefghijklmnoprstuwxyzABCDEFGHIJKLMNOPRSTUWXYZ".includes(char[0]))
             return {
-                type: Lexeme_1.LexemeType.Letter,
+                type: LexemeType.Letter,
                 value: char
             };
         return {
-            type: Lexeme_1.LexemeType.Unknown,
+            type: LexemeType.Unknown,
             value: char
         };
     }
     getTokenType(graphType, prevTokenType) {
-        if (graphType == Lexeme_1.LexemeType.Whitespace)
-            return Token_1.TokenType.Whitespace;
+        if (graphType == LexemeType.Whitespace)
+            return TokenType.Whitespace;
         switch (prevTokenType) {
-            case Token_1.TokenType.BOF:
+            case TokenType.BOF:
                 switch (graphType) {
-                    case Lexeme_1.LexemeType.Digit:
-                        return Token_1.TokenType.Literal;
+                    case LexemeType.Digit:
+                        return TokenType.Literal;
                 }
-            case Token_1.TokenType.Literal:
+            case TokenType.Literal:
                 switch (graphType) {
-                    case Lexeme_1.LexemeType.Digit:
-                        return Token_1.TokenType.Literal;
-                    case Lexeme_1.LexemeType.Plus:
-                    case Lexeme_1.LexemeType.Minus:
-                    case Lexeme_1.LexemeType.Star:
-                    case Lexeme_1.LexemeType.FSlash:
-                    case Lexeme_1.LexemeType.Comma:
-                        return Token_1.TokenType.Operator;
+                    case LexemeType.Digit:
+                        return TokenType.Literal;
+                    case LexemeType.Plus:
+                    case LexemeType.Minus:
+                    case LexemeType.Star:
+                    case LexemeType.FSlash:
+                    case LexemeType.Comma:
+                        return TokenType.Operator;
                 }
-            case Token_1.TokenType.Operator:
+            case TokenType.Operator:
                 switch (graphType) {
-                    case Lexeme_1.LexemeType.Digit:
-                        return Token_1.TokenType.Literal;
-                    case Lexeme_1.LexemeType.Letter:
-                        return Token_1.TokenType.Symbol;
+                    case LexemeType.Digit:
+                        return TokenType.Literal;
+                    case LexemeType.Letter:
+                        return TokenType.Symbol;
                 }
-            case Token_1.TokenType.Symbol:
+            case TokenType.Symbol:
                 switch (graphType) {
-                    case Lexeme_1.LexemeType.Letter:
-                        return Token_1.TokenType.Symbol;
+                    case LexemeType.Letter:
+                        return TokenType.Symbol;
                 }
         }
-        return Token_1.TokenType.Unexpected;
+        return TokenType.Unexpected;
     }
     getTokens(graphs) {
         const tokens = [];
         let pos = 0;
-        let prevActiveType = Token_1.TokenType.BOF;
+        let prevActiveType = TokenType.BOF;
         while (pos < graphs.length) {
             let _pos = pos;
             let groupedValue = "";
@@ -162,7 +160,7 @@ class Tokenizer {
                 groupedValue += graph.value;
                 _pos += 1;
             } while (_pos < graphs.length && type == this.getTokenType(graphs[_pos].type, type));
-            if (type != Token_1.TokenType.Whitespace) {
+            if (type != TokenType.Whitespace) {
                 tokens.push({
                     pos: pos,
                     text: groupedValue,
@@ -182,4 +180,4 @@ class Tokenizer {
         return tokens;
     }
 }
-exports.default = Tokenizer;
+//# sourceMappingURL=Tokenizer.js.map

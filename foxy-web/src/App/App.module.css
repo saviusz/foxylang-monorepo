@@ -1,0 +1,49 @@
+@font-face {
+  font-family: Lilex;
+  src: url("./Lilex-VF.ttf") format("truetype");
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.left {
+  flex: 1;
+}
+
+.right {
+  width: 35%;
+  overflow: auto;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+}
+
+.selectedPanel {
+  flex: 1;
+}
+
+.tabList {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  background: #333;
+
+  box-shadow: #333 0px 0px 10px;
+}
+
+.tabList > * {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+}
+
+.tabList > *.selected {
+
+}

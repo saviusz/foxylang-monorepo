@@ -1,38 +1,51 @@
-import { useState } from 'react';
+import style from './App.module.css'
 
-import './App.css'
-import Editor from '../Editor'
-import GraphsOverlay from '../GraphOverlay';
+import { Suspense, useState } from 'react'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 
-import Tokenizer from "../../../interpreter/src/Tokenizer";
-import TokensOverlay from '../TokensOverlay';
-import SettingsMenu from '../SettingsMenu';
-import { getLexeme } from '../../../interpreter/src/models/Lexeme';
-import { getTokens } from '../../../interpreter/src/models/Token';
+import TokensPage from '../TokensPage/TokensPage'
+import Editor from '../Editor/Editor'
+import { Tokenizer } from '@saviusz/foxylang-tokenizer/index'
+import { TokenData } from '../Models'
+
 
 const tokenizer = new Tokenizer();
 
 function App() {
-  const [text, setText] = useState("Pisz tutaj");
-  const [tokensVisibility, setTokensVisibility] = useState(false);
-  const [graphsVisibility, setGraphsVisibility] = useState(false);
+  const [tokens, setTokens] = useState<TokenData[]>([]);
 
-  const lexemes = text.split("").map(x => getLexeme(x));
-  const tokens = getTokens(lexemes);
+  const handleInput = (text: string) => {
+    const tokens = tokenizer.tokenize(text).map(x => ({ ...x, isSelected: false, key: x.value + x.type + x.column + x.line }));
+    setTokens(tokens);
+  }
 
-  console.log("Tokens:", tokens);
+  const handleTokenSelection = (tokenKey: string) => {
+    setTokens(tokens.map(x => ({ ...x, isSelected: x.key === tokenKey ? !x.isSelected : false })));
+  }
 
-  return (
-    <div className='wrapper'>
-      <SettingsMenu onChangeTokens={setTokensVisibility} onChangeGraphs={setGraphsVisibility} />
-      <Editor onUpdate={setText} />
-      {graphsVisibility &&
-        <GraphsOverlay text={lexemes} />}
-      {tokensVisibility &&
-        <TokensOverlay text={tokens} />
-      }
+  return <div className={style.wrapper}>
+    <div className={style.left}>
+      <Editor onUpdate={handleInput} tokens={tokens} />
     </div>
-  )
+    <div className={style.right}>
+      <Tabs className={style.tabs} selectedTabPanelClassName={style.selectedPanel}>
+        <TabList className={style.tabList}>
+          <Tab>Tokeny</Tab>
+          <Tab>Drzewo</Tab>
+        </TabList>
+
+        <TabPanel>
+          <Suspense fallback={<div>Ładowanie...</div>}>
+            <TokensPage tokens={tokens} onTokenSelection={handleTokenSelection} />
+          </Suspense>
+        </TabPanel>
+
+        <TabPanel>
+          {"drzewo"}
+        </TabPanel>
+      </Tabs>
+    </div>
+  </div>
 }
 
 export default App
