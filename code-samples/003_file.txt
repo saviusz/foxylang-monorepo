@@ -1,34 +1,14 @@
-func main() {
-    final file = readFile("path");
-
-    final parser = Parser(file);
-}
-
-struct Token {
+func<OutputT, ErrorT> nazwa(int a, string b) {
     
-    static enum Type {
-        EOF
-    }
-
-    Type type;
-    String text;
-
-    static const EOF = this{
-        type: Type.EOF,
-        text: ""
-    };
-}
-
-class Parser {
+    /*
+    Zmienna z tekstem
+    */
+    final string elo = "elmo mordeczko";
     
-    int carret = 0;
-    List<Token> tokens;
+    // Zmienna z liczbką
+    const elmo53 = 89;
+    
+    string mamamio = nazwa('test', `różnych opcji`);
 
-    Parser(this.tokens);
-
-    public func<Token> peek() {
-        if (carret > tokens.length()) return Token.EOF
-        return tokens[carret];
-    }
-
+    return 0;
 }
