@@ -1,5 +1,5 @@
 export type LexemeType =
-    "unknown" | "whitespace" | "linebreak" | "symbol" | "text" | "number" | "EOF";
+    "unknown" | "whitespace" | "linebreak" | "symbol" | "text" | "number" | "comment" | "EOF";
 
 export interface Lexeme {
     line: number;

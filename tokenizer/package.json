@@ -1,7 +1,7 @@
 {
     "name": "@saviusz/foxylang-tokenizer",
     "exports": {
-        "./index": {
+        ".": {
             "types": "./src/index.ts",
             "default": "./dist/index.js"
         }
