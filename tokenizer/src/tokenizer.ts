@@ -2,18 +2,26 @@ import { Lexeme, LexemeType } from "./Lexeme";
 
 export class Tokenizer {
     private charNum = 0;
-    private line = 0;
-    private column = 0;
+    private currentLine = 0;
+    private currentColumn = 0;
+
+    private startLine = 0;
+    private startColumn = 0;
+    private startCharNum = 0;
+    
     private input = "";
 
-    states : Array<{ charNum: number, line: number, column: number }> = [];
+    states : Array<{ charNum: number, line: number, column: number, st_line: number, st_column: number, st_charNum: number }> = [];
 
     private logEnabled = true;
     push() {
         this.states.push({
             charNum: this.charNum,
-            line: this.line,
-            column: this.column,
+            line: this.currentLine,
+            column: this.currentColumn,
+            st_line: this.startLine,
+            st_column: this.startColumn,
+            st_charNum: this.startCharNum
         })
     }
 
@@ -21,8 +29,11 @@ export class Tokenizer {
         const state = this.states.pop();
         if (!state) throw new Error("No state to pop");
         this.charNum = state.charNum;
-        this.line = state.line;
-        this.column = state.column;
+        this.currentLine = state.line;
+        this.currentColumn = state.column;
+        this.startLine = state.st_line;
+        this.startColumn = state.st_column;
+        this.startCharNum = state.st_charNum;
     }
 
     drop() {
@@ -30,8 +41,8 @@ export class Tokenizer {
     }
 
     reset(input: string) {
-        this.line = 1;
-        this.column = 1;
+        this.currentLine = 1;
+        this.currentColumn = 1;
         this.charNum = 0;
         this.input = input;
     }
@@ -42,7 +53,7 @@ export class Tokenizer {
         while (true) {
             const token = this.nextToken();
             tokens.push(token);
-            if (token.type == "EOF") break;
+            if (token.kind == "EOF") break;
         }
         return tokens;
     }
@@ -55,10 +66,10 @@ export class Tokenizer {
     private consume(): string {
         const char = this.input.charAt(this.charNum++);
         if (char == "\n") {
-            this.line++;
-            this.column = 1;
+            this.currentLine++;
+            this.currentColumn = 1;
         } else {
-            this.column++;
+            this.currentColumn++;
         }
         return char;
     }
@@ -67,8 +78,13 @@ export class Tokenizer {
 
         const nextChar = this.lookup();
 
+        
+        this.startCharNum = this.charNum;
+        this.startLine = this.currentLine;
+        this.startColumn = this.currentColumn;
+
         if (nextChar == null) {
-            return { line: this.line, column: this.column, type: "EOF", value: "" };
+            return { start: this.startCharNum, end: this.charNum, line: this.startLine, column: this.startColumn, kind: "EOF", value: "" };
         }
 
         if (isWhitespace(nextChar)) return this.parseWhitespace();
@@ -81,7 +97,11 @@ export class Tokenizer {
 
         if (isOperator(nextChar)) return this.parseOperator();
 
-        return { line: this.line, column: this.column, type: "unknown", value: this.consume() };
+        if (nextChar == '"') return this.parseString();
+
+        if (nextChar == "_" || isAlpha(nextChar)) return this.parseIdentifier();
+
+        return { start: this.startCharNum, end: this.charNum, line: this.startLine, column: this.startColumn, kind: "unknown", value: this.consume() };
     }
 
     parseWhitespace() : Lexeme{
@@ -90,7 +110,14 @@ export class Tokenizer {
         while (this.lookup() != null && isWhitespace(this.lookup()!)) {
             value += this.consume();
         }
-        return { line: this.line, column: this.column, type: "whitespace", value: value };
+        return {
+            start: this.startCharNum,
+            end: this.charNum,
+            line: this.startLine,
+            column: this.startColumn,
+            kind: "whitespace",
+            value: value
+        };
     }
 
     parseNewline() : Lexeme{
@@ -98,7 +125,14 @@ export class Tokenizer {
         while (this.lookup() != null && isNewline(this.lookup()!)) {
             value += this.consume();
         }
-        return { line: this.line, column: this.column, type: "linebreak", value: value };
+        return {
+            start: this.startCharNum,
+            end: this.charNum,
+            line: this.startLine,
+            column: this.startColumn,
+            kind: "linebreak",
+            value: value
+        };
     }
 
     parseComment() : Lexeme | null {
@@ -116,7 +150,14 @@ export class Tokenizer {
         while (this.lookup() != null && !isNewline(this.lookup()!)) {
             value += this.consume();
         }
-        return { line: this.line, column: this.column, type: "comment", value: value };
+        return {
+            start: this.startCharNum,
+            end: this.charNum,
+            line: this.startLine,
+            column: this.startColumn,
+            kind: "comment",
+            value: value
+        };
     }
 
     parseBlockComment() : Lexeme {
@@ -139,9 +180,15 @@ export class Tokenizer {
             value += this.consume();
         }
         this.consume();
-        this.consume();
         this.drop();
-        return { line: this.line, column: this.column, type: "comment", value: value };
+        return {
+            start: this.startCharNum,
+            end: this.charNum,
+            line: this.startLine,
+            column: this.startColumn,
+            kind: "comment",
+            value: value
+        };
     }
 
     parseOperator() : Lexeme {
@@ -149,7 +196,32 @@ export class Tokenizer {
         while (this.lookup() != null && isOperator(this.lookup()!)) {
             value += this.consume();
         }
-        return { line: this.line, column: this.column, type: "symbol", value: value };
+        return { start: this.startCharNum, end: this.charNum, line: this.startLine, column: this.startColumn, kind: "operator", value: value };
+    }
+
+    parseString() : Lexeme {
+        let value = "";
+        this.consume();
+        while (this.lookup() != null && this.lookup() !== '"') {
+            value += this.consume();
+        }
+        this.consume();
+        return {
+            start: this.startCharNum,
+            end: this.charNum,
+            line: this.startLine,
+            column: this.startColumn,
+            kind: "text",
+            value: value
+        };
+    }
+
+    parseIdentifier() : Lexeme {
+        let value = "";
+        while (this.lookup() != null && isIdentifier(this.lookup()!)) {
+            value += this.consume();
+        }
+        return { start: this.startCharNum, end: this.charNum, line: this.startLine, column: this.startColumn, kind: "identifier", value: value };
     }
 }
 
@@ -161,6 +233,22 @@ function isNewline(char: string): boolean {
     return char == "\n" || char == "\r";
 }
 
+function isAlpha(char: string): boolean {
+    return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(char);
+}
+
+function isDigit(char: string): boolean {
+    return "0123456789".includes(char);
+}
+
+function isAlphanumeric(char: string): boolean {
+    return isAlpha(char) || isDigit(char);
+}
+
+function isIdentifier(char: string){
+    return isAlphanumeric(char) || char == "_";
+}
+
 function isOperator(char: string): boolean {
-    return "[](){}<>".includes(char ?? "");
+    return "[](){}<>=+-*/%".includes(char ?? "");
 }

@@ -8,10 +8,12 @@
     },
     "scripts": {
         "dev": "tsc --watch",
+        "test": "vitest",
         "build": "tsc"
     },
     "devDependencies": {
         "@saviusz/foxylang-config": "*",
-        "typescript": "latest"
+        "typescript": "latest",
+        "vitest": "^3.2.0"
     }
 }

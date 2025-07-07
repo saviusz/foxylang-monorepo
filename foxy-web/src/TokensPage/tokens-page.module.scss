@@ -39,7 +39,8 @@
 
     &.number { --color: rgb(110, 242, 141); }
     &.text { --color: rgb(241, 171, 97); }
-    &.symbol { --color: rgb(218, 110, 242); }
+    &.operator { --color: rgb(218, 110, 242); }
+    &.identifier { --color: rgb(110, 170, 253); }
     &.number { --color: rgb(110, 242, 141); }
     &.unknown { --color: rgb(242, 110, 110); }
 }

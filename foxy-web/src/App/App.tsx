@@ -5,7 +5,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 
 import TokensPage from '../TokensPage/TokensPage'
 import Editor from '../Editor/Editor'
-import { Tokenizer } from '@saviusz/foxylang-tokenizer/index'
+import { Tokenizer } from '@saviusz/foxylang-tokenizer'
 import { TokenData } from '../Models'
 
 
@@ -15,7 +15,7 @@ function App() {
   const [tokens, setTokens] = useState<TokenData[]>([]);
 
   const handleInput = (text: string) => {
-    const tokens = tokenizer.tokenize(text).map(x => ({ ...x, isSelected: false, key: x.value + x.type + x.column + x.line }));
+    const tokens = tokenizer.tokenize(text).map(x => ({ ...x, isSelected: false, key: x.value + x.kind + x.column + x.line }));
     setTokens(tokens);
   }
 
@@ -25,7 +25,7 @@ function App() {
 
   return <div className={style.wrapper}>
     <div className={style.left}>
-      <Editor onUpdate={handleInput} tokens={tokens} />
+      <Editor onUpdate={handleInput} tokens={tokens}/>
     </div>
     <div className={style.right}>
       <Tabs className={style.tabs} selectedTabPanelClassName={style.selectedPanel}>

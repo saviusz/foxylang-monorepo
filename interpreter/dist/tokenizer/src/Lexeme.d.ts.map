@@ -1,1 +1,0 @@
-{"version":3,"file":"Lexeme.d.ts","sourceRoot":"","sources":["../../../../tokenizer/src/Lexeme.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,UAAU,GAClB,SAAS,GAAG,YAAY,GAAG,WAAW,GAAG,QAAQ,GAAG,MAAM,GAAG,QAAQ,GAAG,KAAK,CAAC;AAElF,MAAM,WAAW,MAAM;IACnB,IAAI,EAAE,MAAM,CAAC;IACb,MAAM,EAAE,MAAM,CAAC;IACf,IAAI,EAAE,UAAU,CAAC;IACjB,KAAK,EAAE,MAAM,CAAC;CACjB"}

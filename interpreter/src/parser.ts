@@ -106,5 +106,10 @@ export function parseIdentifier(p: ParseContext) {
     
     p.pushState();
     skipWhitespace(p);
+
+    if(p.lookAheadType() === "symbol") {
+        
+    }
+
     p.popState();
 }

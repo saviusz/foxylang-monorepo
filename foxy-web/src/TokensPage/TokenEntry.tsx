@@ -16,7 +16,7 @@ export default function TokenEntry({ token, onClick }: Props) {
 
   return <div className={clsx(style.entry, token.isSelected && style.selected)} onClick={onClick}>
     <div className={style.value}>{text}</div>
-    <div className={clsx(style.type, style[token.type])}>{token.type}</div>
+    <div className={clsx(style.type, style[token.kind])}>{token.kind}</div>
     <div className={style.position}>{token.line}:{token.column}</div>
   </div>
 }

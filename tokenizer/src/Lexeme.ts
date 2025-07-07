@@ -1,9 +1,15 @@
 export type LexemeType =
-    "unknown" | "whitespace" | "linebreak" | "symbol" | "text" | "number" | "comment" | "EOF";
+    "unknown" | "whitespace" | "linebreak" | "operator" | "identifier" | "text" | "number" | "comment" | "EOF";
 
 export interface Lexeme {
+    
+    start: number;
+    end: number;
+
     line: number;
     column: number;
-    type: LexemeType;
+    
+    kind: LexemeType;
+
     value: string;
 }

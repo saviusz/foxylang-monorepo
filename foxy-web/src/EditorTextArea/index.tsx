@@ -8,7 +8,7 @@ export default function EditorTextArea(props: Props) {
     return (
         <div
         className={style.container} 
-        contentEditable 
+        contentEditable="plaintext-only"
         suppressContentEditableWarning={true} onInput={x => props.onUpdate(x.currentTarget.innerText)}>
             Pisz tutaj
         </div>
